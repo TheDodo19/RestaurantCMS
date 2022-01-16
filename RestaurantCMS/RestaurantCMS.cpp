@@ -1,10 +1,11 @@
 ﻿// RestaurantCMS.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
 //
 
-#include <iostream>
-#include <string>
+#include "iostream"
+#include "string"
 #include "Restaurant.h"
 #include "Client.h"
+#include "Dish.h"
 
 const std::string AccepptanceValues[] = {"Tak","tak","t","true","True","Yes","yes","y",""};
 const std::string DeclineValues[] = {"Nie","nie","n",""};
@@ -43,9 +44,10 @@ bool GetBoolFromClient(std::string message)
 int main()
 {
     std::string input="";
-    Restaurant restaturant("PIZZADOBRA", "ADRES","OPIS");
-    std::cout<<restaturant.PrintRestaurantData("WITAJ W RESTAURACJI ");
+    Restaurant restaurant("PIZZADOBRA", "ADRES","OPIS");
+    std::cout<<restaurant.PrintRestaurantData("WITAJ W RESTAURACJI ");
     Client client;
     client.SetIsOrderForDelivery(GetBoolFromClient("Czy zamowienie bedzie na dowoz"));
     std::cout << "Hello World!\n";
+    Dish dupa(420, "Schabowy", "mięso", 69);
 }
