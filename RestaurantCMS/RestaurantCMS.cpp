@@ -30,12 +30,14 @@ int GetIntFromClient(std::string message="")
         std::cin >> userInput;
         std::cout << "Podano niepoprawna wartosc, prosze wpisac cyfre/liczbe " << std::endl;;
 
-    } while (isNumber(userInput));
+    } while (!isNumber(userInput));
+    return atoi(userInput.c_str());
 }
 std::string GetStringFromClient(std::string message="")
 {
     std::cout << message << std::endl;
     std::string userInput;
+    std::cin >> userInput;
     return userInput;
 }
 bool GetBoolFromClient(std::string message="")
@@ -110,7 +112,7 @@ std::vector<Dish> getDishesFromFile(std::string filepath)
 std::string GetClientName()
 {
     std::string name;
-    std::cout << "PODAJ SWOJE IMIE" << std::endl;
+    std::cout << std::endl << "PODAJ SWOJE IMIE" << std::endl;
     std::cin >> name;
     return name;
 }
@@ -121,10 +123,12 @@ void SetTableNumber(int number)
 std::string GetRestaurantDeliveryDateTime()
 {
     //todo sprawdzenia czasow i czy nie jest mniejsza jak obecna godzina +20 minut
+    return "";
 }
-void SetDeliveryData()
-{
+void SetDeliveryData(Client *client)
+{   
     std::string adress=GetStringFromClient("Podaj adres");
+    client->SetAddress(adress);
     std::string DeliveryHour = GetRestaurantDeliveryDateTime();
 }
 int main()
@@ -133,11 +137,11 @@ int main()
     Restaurant restaurant("PIZZADOBRA", "ADRES","OPIS");
     std::cout<<restaurant.PrintRestaurantData("WITAJ W RESTAURACJI ");
     Client client;
+    client.SetName(GetClientName());
     client.SetIsOrderForDelivery(GetBoolFromClient("Czy zamowienie bedzie na dowoz"));
-    GetClientName();
     if (client.GetIsOrderForDelivery())
     {
-        SetDeliveryData();
+        SetDeliveryData(&client);
     }
     else
     {

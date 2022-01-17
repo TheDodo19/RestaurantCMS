@@ -7,9 +7,15 @@ void Client::SetName(std::string name)
 
 void Client::SetIsOrderForDelivery(bool value)
 {
+	IsHisOrderForDelivery = value;
 }
 
 bool Client::GetIsOrderForDelivery()
 {
 	return IsHisOrderForDelivery;
+}
+
+void Client::SetAddress(std::string address)
+{
+	Address = address;
 }

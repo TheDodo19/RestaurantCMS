@@ -13,4 +13,5 @@ public:
 	void SetName(std::string name);
 	void SetIsOrderForDelivery(bool value);
 	bool GetIsOrderForDelivery();
+	void SetAddress(std::string address);
 };
