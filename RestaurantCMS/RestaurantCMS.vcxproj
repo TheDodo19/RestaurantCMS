@@ -140,14 +140,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Dish.cpp" />
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="Restaurant.cpp" />
     <ClCompile Include="RestaurantCMS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Dish.h" />
     <ClInclude Include="Order.h" />
     <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="RestaurantCMS.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dish.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,3 +8,8 @@ void Client::SetName(std::string name)
 void Client::SetIsOrderForDelivery(bool value)
 {
 }
+
+bool Client::GetIsOrderForDelivery()
+{
+	return IsHisOrderForDelivery;
+}
