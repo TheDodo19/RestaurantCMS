@@ -10,9 +10,11 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-
-const std::string AccepptanceValues[] = {"Tak","tak","t","true","True","Yes","yes","y",""};
-const std::string DeclineValues[] = {"Nie","nie","n",""};
+const int RestaurantOpeningTime = 10;
+const int RestaurantClosingTime = 21;
+const std::string menuFilePath = "dish.txt";
+const std::string AccepptanceValues[] = {"Tak","tak","t","T","true","True","Yes","yes","y",""};
+const std::string DeclineValues[] = {"Nie","nie","n","N",""};
 bool isNumber(const std::string& str)
 {
     for (char const& c : str) {
@@ -22,22 +24,25 @@ bool isNumber(const std::string& str)
 }
 int GetIntFromClient(std::string message="")
 {
-    std::cout << message << std::endl;
+    std::cout << std::endl << message << std::endl;
     std::string userInput;
-    bool IsUserInputSuccesscful = false;
-
+    bool IsUserInputUnSuccesscful = true;
+    int iterator = 0;
     do {
-        std::cin >> userInput;
-        std::cout << "Podano niepoprawna wartosc, prosze wpisac cyfre/liczbe " << std::endl;;
-
+        if (iterator != 0)
+        {
+            std::cout << "Podano niepoprawna wartosc, prosze wpisac cyfre/liczbe " << std::endl;
+        }
+        std::getline(std::cin >> std::ws, userInput);
+        iterator++;
     } while (!isNumber(userInput));
     return atoi(userInput.c_str());
 }
 std::string GetStringFromClient(std::string message="")
 {
-    std::cout << message << std::endl;
+    std::cout << std::endl << message << std::endl;
     std::string userInput;
-    std::cin >> userInput;
+    std::getline(std::cin >> std::ws, userInput);
     return userInput;
 }
 bool GetBoolFromClient(std::string message="")
@@ -86,11 +91,10 @@ std::vector<Dish> getDishesFromFile(std::string filepath)
     std::ifstream DishFile(filepath);
     int propNumber = 0;
     Dish dish;
-    while (std::getline(DishFile, varOutput,',')) {
+    while (std::getline(DishFile, varOutput,';')) {
         //wyzerowanie w celu poprawnego bindingu danych 
         if (propNumber == 4) {
             propNumber = 0;
-            result.push_back(dish);
             dish = Dish();
         }
         propNumber++;
@@ -100,30 +104,34 @@ std::vector<Dish> getDishesFromFile(std::string filepath)
             break;
             case 2: dish.SetName(varOutput);
             break;
-            case 3: dish.SetName(varOutput);
+            case 3: dish.SetIngredients(varOutput);
             break;
             case 4: dish.SetPrice(varOutput);
             break;
         }
+        if (propNumber == 4)   result.push_back(dish);
     }
     DishFile.close();
     return result;
 }
 std::string GetClientName()
 {
-    std::string name;
-    std::cout << std::endl << "PODAJ SWOJE IMIE" << std::endl;
-    std::cin >> name;
+    std::string name = GetStringFromClient("PODAJ SWOJE IMIE");
     return name;
 }
-void SetTableNumber(int number)
+void SetTableNumber(int number,Client *client)
 {
-    std::cout << "zobaczyc do czego uzywa sie table number" << std::endl;
+    client->SetTableNumber(number);
 }
 std::string GetRestaurantDeliveryDateTime()
 {
-    //todo sprawdzenia czasow i czy nie jest mniejsza jak obecna godzina +20 minut
-    return "";
+    int deliveryHour=GetIntFromClient("Podaj preferowana pelna godzine dostawy");
+    while (deliveryHour>RestaurantClosingTime||deliveryHour<RestaurantOpeningTime)
+    {
+        std::cout << "Podano godzine wykraczajaca poza godziny dzialania restauracji" << std::endl;
+        deliveryHour = GetIntFromClient("Podaj inna preferowana pelna godzine dostawy");
+    }
+    return std::to_string(deliveryHour);
 }
 void SetDeliveryData(Client *client)
 {   
@@ -131,6 +139,81 @@ void SetDeliveryData(Client *client)
     client->SetAddress(adress);
     std::string DeliveryHour = GetRestaurantDeliveryDateTime();
 }
+void PrintMenu(std::vector<Dish> menu)
+{
+    for (Dish item : menu)
+    {
+        item.PrintDishAsMenu();
+    }
+    std::cout << std::endl;
+}
+
+void ChooseDishAsClientRequest(Client *client)
+{
+    std::vector<Dish> menu = getDishesFromFile(menuFilePath);
+    std::string userInput = "";
+    std::string userInfo = "";
+    do {
+        system("CLS");
+        PrintMenu(menu);
+       
+        std::cout << "ABY DODAC POZYCJE DO ZAMOWIENIA WPISZ NUMER DANIA, KTORE CHCESZ WYBRAC " << std::endl;
+        std::cout << "WPISZ 'ok' ABY ZATWIERDZIC SWOJE ZAMOWIENIE" << std::endl;
+        std::cout << "OBECNA CENA TWOJEGO ZAMOWIENIA WYNOSI: " << client->GetOrderSummedPrice() << std::endl << "DAN NA ZAMOWIENIU: " << client->GetOrderCount() << std::endl;
+        std::cout << std::endl << userInfo << std::endl;
+        std::cin >> userInput;
+        if (userInput == "ok" || userInput == "OK" || userInput == "Ok" || userInput == "oK")
+        {
+            if (client->GetOrderCount() >= 1)
+            {
+                break;
+            }
+            else
+            {
+                userInfo="Dodaj minimum jedna pozycja do zamowienia";
+            }
+        }
+        else
+        {
+            Dish selectedDish = Dish();
+            bool isFoundOnMenu = false;
+            for (Dish item : menu)
+            {
+                if (std::to_string(item.GetDishId()) == userInput)
+                {
+                    isFoundOnMenu = true;
+                    selectedDish = item;
+                }
+            }
+            if (isFoundOnMenu)
+            {
+
+                bool isMoreThanOne = GetBoolFromClient("Czy chcesz zamowic wiecej niz jedna porcja?");
+                if (isMoreThanOne)
+                {
+                    int portionCount = -1;
+                    do {
+                        portionCount = GetIntFromClient("Ile porcji chcesz zamowic?");
+                    } while (portionCount<=0||portionCount>999);
+                    for (int i = 0; i < portionCount; i++)
+                    {
+                        client->AddDishToOrder(selectedDish);
+                    }
+                }
+                else
+                {
+                    client->AddDishToOrder(selectedDish);
+                }
+            }
+            else
+            {
+                userInfo = "Nie znaleziono pozycji o takim numerze";
+            }
+
+        }
+    } while (true);
+}
+
 int main()
 {
     std::string input="";
@@ -145,11 +228,8 @@ int main()
     }
     else
     {
-        SetTableNumber(GetIntFromClient("Podaj numer stolika"));
+        SetTableNumber(GetIntFromClient("Podaj numer stolika"),&client);
     }
-    std::cout << "Hello World!\n";
-    Dish dish(420, "Schabowy", "mięso", 69);
-    getDishesFromFile("dish.txt");
-    std::cout << "Wcisnij dowolny klawisz aby wyjsc z aplikacji";
-    std::cin.get();
+    ChooseDishAsClientRequest(&client);
+    system("PAUSE");
 }

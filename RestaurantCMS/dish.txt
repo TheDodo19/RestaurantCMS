@@ -1,1 +1,1 @@
-1,SCHABOWY,mieso;ziemniaki;warzywa,420,2,Zupa Grzybowa,grzyby;woda,20
+1;SCHABOWY;mieso,ziemniaki,warzywa;420;2;Zupa Grzybowa;grzyby,woda;20

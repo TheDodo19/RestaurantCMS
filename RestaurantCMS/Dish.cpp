@@ -1,5 +1,5 @@
 #include "Dish.h"
-
+#include <iostream>
 Dish::Dish(int id, std::string name, std::string ingredients, float price) {
     this-> DishId = id; 
     this-> Name = name;
@@ -40,12 +40,22 @@ void Dish::SetPrice(float price)
     Price = price;
 }
 
-void Dish::SetIngredients()
+void Dish::SetIngredients(std::string ingredients)
 {
-    Ingredients = "TODO LIST OF INGREDIENTS";
+    Ingredients = ingredients;
 }
 
 void Dish::SetName(std::string name)
 {
     Name = name;
+}
+
+void Dish::PrintDishAsMenu()
+{
+    std::cout <<"Numer dania: "<<DishId << " Nazwa: " << Name << " " << "Cena: " << Price << "zl " << "Skladniki: " << Ingredients << " " << std::endl;
+}
+
+int Dish::GetDishId()
+{
+    return DishId;
 }

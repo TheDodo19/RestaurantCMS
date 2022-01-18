@@ -1,8 +1,8 @@
 #include "Restaurant.h"
 
-void Restaurant::setRestaurantId(int)
+void Restaurant::setRestaurantId(int id)
 {
-	
+	Id = id;
 }
 
 std::string Restaurant::getRestaurantId()
