@@ -14,7 +14,7 @@
 const int RestaurantOpeningTime = 10;
 const int RestaurantClosingTime = 21;
 const std::string menuFilePath = "dish.txt";
-const std::string AccepptanceValues[] = { "Tak","tak","t","T","true","True","Yes","yes","y","" };
+const std::string AccepptanceValues[] = { "Tak","ta","tak","t","T","true","True","Yes","yes","y","" };
 const std::string DeclineValues[] = { "Nie","nie","n","N","" };
 bool isNumber(const std::string& str)
 {
@@ -161,7 +161,7 @@ void ChooseDishAsClientRequest(Client* client)
 
 		std::cout << "ABY DODAC POZYCJE DO ZAMOWIENIA WPISZ NUMER DANIA, KTORE CHCESZ WYBRAC " << std::endl;
 		std::cout << "WPISZ 'ok' ABY ZATWIERDZIC SWOJE ZAMOWIENIE" << std::endl;
-		std::cout << "OBECNA CENA TWOJEGO ZAMOWIENIA WYNOSI: " << client->GetOrderSummedPrice() << std::endl << "DAN NA ZAMOWIENIU: " << client->GetOrderCount() << std::endl;
+		std::cout << "OBECNA CENA TWOJEGO ZAMOWIENIA WYNOSI: " << client->GetOrderSummedPrice() << std::endl << "POZYCJI NA ZAMOWIENIU: " << client->GetOrderCount() << std::endl;
 		std::cout << std::endl << userInfo << std::endl;
 		std::cin >> userInput;
 		if (userInput == "ok" || userInput == "OK" || userInput == "Ok" || userInput == "oK")
@@ -215,6 +215,42 @@ void ChooseDishAsClientRequest(Client* client)
 		}
 	} while (true);
 }
+struct DishDTO {
+	Dish dish;
+	int howMany;
+};
+std::vector<DishDTO> GroupByDishId(std::vector<Dish> dishes)
+{
+	std::vector<DishDTO> dishDtoList;
+	for (Dish item : dishes)
+	{
+		
+		for (DishDTO &dishdto : dishDtoList)
+		{
+			if (dishdto.dish.GetDishId() == item.GetDishId())
+			{
+				dishdto.howMany++;
+				continue;
+			}
+			else
+			{
+				DishDTO newDish;
+				newDish.dish = item;
+				newDish.howMany = 1;
+				dishDtoList.push_back(newDish);
+			}
+		}
+		if (dishDtoList.size() == 0)
+		{
+			DishDTO newDish;
+			newDish.dish = item;
+			newDish.howMany = 1;
+			dishDtoList.push_back(newDish);
+		}
+	}
+	return dishDtoList;
+}
+
 void PrintBill(Client* client)
 {
 	std::ofstream File;
@@ -223,10 +259,13 @@ void PrintBill(Client* client)
 	File << client->GetOrderSummedPrice() << std::endl;
 	File << "Twoje zamówienie to" << std::endl;
 	std::vector<Dish> dishes = client->GetOrders();
-	for (Dish item : dishes)
+	std::vector<DishDTO> dishDtoList= GroupByDishId(dishes);
+	
+	for (DishDTO dishdto: dishDtoList)
 	{
-		File << item.GetDishToBill();
+		File << dishdto.dish.GetDishToBill() << "x" << dishdto.howMany << std::endl;
 	}
+	
 	std::cout << std::endl;
 	File.close();
 }
@@ -234,18 +273,17 @@ void WriteSummary(Client* client)
 {
 	std::cout << "Twoje zamowienie to:" << std::endl;
 	std::vector<Dish> dishes = client->GetOrders();
-	for (Dish item : dishes)
+	std::vector<DishDTO> dishDtoList = GroupByDishId(dishes);
+	for (DishDTO dishdto : dishDtoList)
 	{
-		std::cout << item.GetDishToBill();
+		std::cout << dishdto.dish.GetDishToBill()  << "x" << dishdto.howMany << std::endl;
 	}
 	std::cout << "Cena twojego zamowienia to:" << std::endl;
 	std::cout << client->GetOrderSummedPrice() << std::endl;
 }
 void PreparationTime(Client* client)
 {
-
 	std::cout << "przewidywany czas przygotowania to: " << client->GetOrderCount() * 5 << "min" << std::endl;
-
 }
 
 
@@ -254,6 +292,7 @@ void PreparationTime(Client* client)
 int main()
 {
 	std::string input = "";
+
 	Restaurant restaurant("PIZZADOBRA", "ADRES", "OPIS");
 	std::cout << restaurant.PrintRestaurantData("WITAJ W RESTAURACJI ");
 	Client client;

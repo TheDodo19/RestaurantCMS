@@ -1,19 +1,5 @@
 Cena twojego zamowienia wynosi
-6720
+440
 Twoje zamówienie to
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
- Nazwa: SCHABOWY Cena: 420.000000zl 
+ Nazwa: SCHABOWY Cena: 420.000000zl x1
+ Nazwa: Zupa Grzybowa Cena: 20.000000zl x1

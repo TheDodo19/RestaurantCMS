@@ -61,5 +61,5 @@ int Dish::GetDishId()
 }
 std::string Dish::GetDishToBill()
 {
-	return " Nazwa: " + Name + " " + "Cena: " + std::to_string(Price) + "zl " + "\n";
+	return " Nazwa: " + Name + " " + "Cena: " + std::to_string(Price) + "zl ";
 }
