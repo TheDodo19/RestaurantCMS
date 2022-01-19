@@ -19,5 +19,6 @@ public:
 	void SetName(std::string name);
 	void PrintDishAsMenu();
 	int GetDishId();
+	std::string GetDishToBill();
 };
 

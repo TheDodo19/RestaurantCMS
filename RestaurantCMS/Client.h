@@ -11,6 +11,7 @@ private:
 	std::string Address;
 	std::string Name;
 	std::vector<Dish> Orders;
+	std::string PrefDeliveryTime;
 public:
 	void SetName(std::string name);
 	void SetIsOrderForDelivery(bool value);
@@ -20,4 +21,9 @@ public:
 	int GetOrderCount();
 	float GetOrderSummedPrice();
 	void SetTableNumber(int number);
+	void SetPrefDeliveryTime(std::string time);
+	std::vector<Dish> GetOrders();
+	std::string GetDeliveryTime();
+	std::string GetDeliveryAdress();
 };
+

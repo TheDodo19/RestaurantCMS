@@ -33,10 +33,10 @@ int Client::GetOrderCount()
 
 float Client::GetOrderSummedPrice()
 {
-	float result=0.0f;
+	float result = 0.0f;
 	for (Dish item : Orders)
 	{
-		result+=item.GetDishPrice();
+		result += item.GetDishPrice();
 	}
 	return result;
 }
@@ -44,4 +44,22 @@ float Client::GetOrderSummedPrice()
 void Client::SetTableNumber(int number)
 {
 	TableNumber = number;
+}
+
+void Client::SetPrefDeliveryTime(std::string time)
+{
+	PrefDeliveryTime = time;
+}
+
+std::vector<Dish> Client::GetOrders()
+{
+	return Orders;
+}
+std::string Client::GetDeliveryTime()
+{
+	return PrefDeliveryTime;
+}
+std::string Client::GetDeliveryAdress()
+{
+	return Address;
 }
