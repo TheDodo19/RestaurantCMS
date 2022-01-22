@@ -1,5 +1,9 @@
 Cena twojego zamowienia wynosi
-440
+555
 Twoje zamówienie to
- Nazwa: SCHABOWY Cena: 420.000000zl x1
- Nazwa: Zupa Grzybowa Cena: 20.000000zl x1
+ Nazwa: Pizza MARGHERITA  Cena: 24.000000zl x1
+ Nazwa: Pizza FUNGHI  Cena: 26.000000zl x1
+ Nazwa: Pizza VESUVIO Cena: 25.000000zl x1
+ Nazwa: Pizza SALAMI Cena: 29.000000zl x1
+ Nazwa: Pizza CAPRICIOSA Cena: 31.000000zl x1
+ Nazwa: Pizza HAWAJSKA Cena: 420.000000zl x1

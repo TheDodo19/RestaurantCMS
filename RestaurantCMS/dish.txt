@@ -1,1 +1,1 @@
-1;SCHABOWY;mieso,ziemniaki,warzywa;420;2;Zupa Grzybowa;grzyby,woda;20
+1;Pizza MARGHERITA ;Sos,Ser;24;2;Pizza FUNGHI ;Sos, Ser, Pieczarki;26;3;Pizza VESUVIO;Sos, Ser, Szynka;25;4;Pizza SALAMI;Sos, Ser, Salami;29;5;Pizza CAPRICIOSA;Sos, Ser, Szynka, Pieczarki;31;6;Pizza HAWAJSKA;Sos, Ser, Szynka, Ananas;420

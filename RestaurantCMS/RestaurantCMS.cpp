@@ -219,26 +219,39 @@ struct DishDTO {
 	Dish dish;
 	int howMany;
 };
+bool checkIfDishExistsInDtoList(std::vector<DishDTO> dishDtoList,Dish item){
+	for (DishDTO& dishdto : dishDtoList)
+	{
+		if (dishdto.dish.GetDishId() == item.GetDishId())
+		{
+			return true;
+		}
+	}
+	return false;
+}
 std::vector<DishDTO> GroupByDishId(std::vector<Dish> dishes)
 {
 	std::vector<DishDTO> dishDtoList;
 	for (Dish item : dishes)
 	{
-		
-		for (DishDTO &dishdto : dishDtoList)
+
+		if (checkIfDishExistsInDtoList(dishDtoList,item))
 		{
-			if (dishdto.dish.GetDishId() == item.GetDishId())
+			for (DishDTO& dishdto : dishDtoList)
 			{
-				dishdto.howMany++;
-				continue;
+				if (dishdto.dish.GetDishId() == item.GetDishId())
+				{
+					dishdto.howMany = dishdto.howMany + 1;
+					break;
+				}
 			}
-			else
-			{
-				DishDTO newDish;
+		}
+		else
+		{
+			DishDTO newDish;
 				newDish.dish = item;
 				newDish.howMany = 1;
 				dishDtoList.push_back(newDish);
-			}
 		}
 		if (dishDtoList.size() == 0)
 		{
