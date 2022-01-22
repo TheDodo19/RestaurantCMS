@@ -10,7 +10,6 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <fstream>
 const int RestaurantOpeningTime = 10;
 const int RestaurantClosingTime = 21;
 const std::string menuFilePath = "dish.txt";
@@ -73,17 +72,6 @@ bool GetBoolFromClient(std::string message = "")
 	} while (!IsUserInputSuccesscful);
 	return IsUserInputSuccesscful;
 }
-std::vector<std::string> split(const std::string& str, int delimiter(int) = ::isspace) {
-	std::vector<std::string> result;
-	std::stringstream ss(str);
-	for (std::string i; ss >> i;) {
-		result.push_back(i);
-		if (ss.peek() == ',')
-			ss.ignore();
-	}
-	return result;
-}
-
 std::vector<Dish> getDishesFromFile(std::string filepath)
 {
 	std::string varOutput;
@@ -305,8 +293,7 @@ void PreparationTime(Client* client)
 int main()
 {
 	std::string input = "";
-
-	Restaurant restaurant("PIZZADOBRA", "ADRES", "OPIS");
+	Restaurant restaurant("PIZZADOBRA", "Glogowska 289", "MY ROBIMY TY JESZ");
 	std::cout << restaurant.PrintRestaurantData("WITAJ W RESTAURACJI ");
 	Client client;
 	client.SetName(GetClientName());
@@ -330,7 +317,5 @@ int main()
 		PreparationTime(&client);
 	}
 	PrintBill(&client);
-
-
 	system("PAUSE");
 }
